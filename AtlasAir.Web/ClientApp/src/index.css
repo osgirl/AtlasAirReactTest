@@ -1,0 +1,23 @@
+@media (max-width: 767px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    body {
+        padding-top: 50px;
+    }
+}
+
+i.oi {
+    margin-right: 1rem;
+}
+
+.button-bar {
+    display: flex;
+    flex-flow: row nowrap;
+}
+.button-bar .btn {
+    align-self: flex-end;
+}
+.linky {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
