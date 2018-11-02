@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actionCreators } from '../store/Cars';
+import { actionCreators, emptyCar } from '../store/Cars';
 import { bindActionCreators } from 'redux';
 import { Button, Modal, Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.emptyCar = {
-            id: 0,
-            manufacturer: '',
-            make: '',
-            model: '',
-            year: ''
-        };
         this.state = {
             showView: false,
             showAdd: false,
@@ -45,7 +38,6 @@ class Home extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         this.props.requestAllCars();
     }
 
@@ -78,9 +70,9 @@ class Home extends Component {
         this.props.selectCar(car);
     }
 
-    handleAdd(car) {
-        this.setState({ showAdd: true, selectedCar: car });
-        this.props.selectCar();
+    handleAdd(car = { ...emptyCar }) {
+        this.setState({ showAdd: true });
+        this.props.selectCar(car);
     }
 
     handleAddHide() {
@@ -88,8 +80,8 @@ class Home extends Component {
     }
 
     handleView(car) {
-        this.setState({ showView: true, selectedCar: car });
-        this.props.selectCar();
+        this.setState({ showView: true });
+        this.props.selectCar(car);
     }
 
     handleViewHide() {
@@ -97,8 +89,8 @@ class Home extends Component {
     }
 
     handleEdit(car) {
-        this.setState({ showEdit: true, selectedCar: car });
-        this.props.selectCar();
+        this.setState({ showEdit: true });
+        this.props.selectCar(car);
     }
 
     handleEditHide() {
@@ -106,18 +98,18 @@ class Home extends Component {
     }
 
     handleDelete(car) {
-        this.setState({ showDelete: true, selectedCar: car });
-        this.props.selectCar();
+        this.setState({ showDelete: true });
+        this.props.selectCar(car);
     }
 
     handleDeleteHide() {
         this.setState({ showDelete: false });
     }
 
-    handleDeleteYes() {
-        this.props.deleteCar();
+    handleDeleteYes(car) {
+        this.props.deleteCar(car);
         this.handleDeleteHide();
-        this.props.requestAllCars();
+        this.props.invalidateCars();
     }
 
     handleDeleteNo() {
@@ -137,7 +129,7 @@ class Home extends Component {
             showEdit: false,
             showView: false
         });
-        this.props.requestAllCars();
+        this.props.invalidateCars();
     }
 
     renderRow(car) {
@@ -172,7 +164,7 @@ class Home extends Component {
                                     Manufacturer:
                                 </Col>
                                 <Col sm={10}>
-                                    {this.props.selectedCar && this.props.selectedCar.manufacturer}
+                                    {this.props.selectedCar.manufacturer}
                                 </Col>
                             </FormGroup>
                             <FormGroup controlId="make">
@@ -180,7 +172,7 @@ class Home extends Component {
                                     Make:
                                 </Col>
                                 <Col sm={10}>
-                                    {this.props.selectedCar && this.props.selectedCar.make}
+                                    {this.props.selectedCar.make}
                                 </Col>
                             </FormGroup>
                             <FormGroup controlId="model">
@@ -188,7 +180,7 @@ class Home extends Component {
                                     Model:
                                 </Col>
                                 <Col sm={10}>
-                                    {this.props.selectedCar && this.props.selectedCar.model}
+                                    {this.props.selectedCar.model}
                                 </Col>
                             </FormGroup>
                             <FormGroup controlId="year">
@@ -196,7 +188,7 @@ class Home extends Component {
                                     Year:
                                 </Col>
                                 <Col sm={10}>
-                                    {this.props.selectedCar && this.props.selectedCar.year}
+                                    {this.props.selectedCar.year}
                                 </Col>
                             </FormGroup>
                         </Form>
